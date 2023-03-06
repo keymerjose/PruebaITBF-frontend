@@ -4,11 +4,42 @@ import $ from 'jquery';
 import { NavLink, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import { useGetHotels } from "../../hooks/useGetHotels";
+import { useGetHotelById } from "../../hooks/useGetHotelById";
 
 export const Conf = () => {
     const { TypesRoom } = useGetAllTypesRoom();
     const { Accommodations } = useGetAllAccommodations();
     const { hotel_id } = useParams();
+    const { hotel } = useGetHotelById(hotel_id);
+    
+    let accommodation1   = 'N/A';
+    let type_room1           = 'N/A';
+    let amount1              = '0';
+
+    let accommodation2   = 'N/A';
+    let type_room2           = 'N/A';
+    let amount2              = '0';
+
+    let accommodation3   = 'N/A';
+    let type_room3           = 'N/A';
+    let amount3              = '0';
+
+
+    if( hotel[0].config?.length != undefined ){
+        accommodation1       = Accommodations.find( e => e.id == hotel[0].config[0].accommodation_id).name;
+        type_room1           = TypesRoom.find( e => e.id == hotel[0].config[0].room_types_id).name;
+        amount1              = hotel[0].config[0].amount;
+
+        accommodation2      = Accommodations.find( e => e.id == hotel[0].config[1].accommodation_id).name;
+        type_room2          = TypesRoom.find( e => e.id == hotel[0].config[1].room_types_id).name;
+        amount2             = hotel[0].config[1].amount;
+
+        accommodation3      = Accommodations.find( e => e.id == hotel[0].config[2].accommodation_id).name;
+        type_room3          = TypesRoom.find( e => e.id == hotel[0].config[2].room_types_id).name;
+        amount3             = hotel[0].config[2].amount;
+    }
+    
     const navigate = useNavigate();
 
     const onSubmit = (event) => {
@@ -153,6 +184,34 @@ export const Conf = () => {
                                     <td>
                                         <input type="hidden" name="conf[3][hotel_id]" className="form-control" value={hotel_id} />
                                     </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className="table-responsive">
+                        <table className="table table-sm">
+                            <thead className="thead-dark">
+                                <tr>
+                                    <th>Acomodación</th>
+                                    <th>Tipo de Habitación</th>
+                                    <th>Cantidad</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{accommodation1}</td>
+                                    <td>{type_room1}</td>
+                                    <td>{amount1}</td>
+                                </tr>
+                                <tr>
+                                    <td>{accommodation2}</td>
+                                    <td>{type_room2}</td>
+                                    <td>{amount2}</td>
+                                </tr>
+                                <tr>
+                                    <td>{accommodation3}</td>
+                                    <td>{type_room3}</td>
+                                    <td>{amount3}</td>
                                 </tr>
                             </tbody>
                         </table>

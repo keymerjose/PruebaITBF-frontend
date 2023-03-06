@@ -7,7 +7,8 @@ export const getHotels = async() => {
         'direction': hotel.direction,
         'city_id': hotel.city_id,
         'nit': hotel.nit,
-        'number_rooms': hotel.number_rooms
+        'number_rooms': hotel.number_rooms,
+        'config': hotel.config
     }));
     return hotels;
 }
